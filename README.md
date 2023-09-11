@@ -9,7 +9,7 @@ To use this package, add `the_popup` as a dependency in your `pubspec.yaml` file
 
 ```yaml
 dependencies:
-  the_popup: ^0.0.1
+  the_popup: ^0.0.3
 ```
 
 Alternatively, you can add it to your project by running the following commands in your terminal:
