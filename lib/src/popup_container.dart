@@ -7,6 +7,7 @@ class PopupContainer extends StatefulWidget {
   final PopupPosition position;
   final Animation<double> animation;
   final Widget child;
+  final Offset offset;
 
   const PopupContainer({
     super.key,
@@ -14,6 +15,7 @@ class PopupContainer extends StatefulWidget {
     required this.position,
     required this.animation,
     required this.child,
+    required this.offset,
   });
 
   @override
@@ -39,6 +41,7 @@ class _PopupState extends State<PopupContainer>
       final anchorRenderBox = anchorRenderObj as RenderBox;
       final popupRenderBox = popupRenderObj as RenderBox;
       Offset anchorPosition = anchorRenderBox.localToGlobal(Offset.zero);
+      anchorPosition += widget.offset;
       Size anchorSize = anchorRenderBox.size;
       Size popupSize = popupRenderBox.size;
       switch (widget.position) {

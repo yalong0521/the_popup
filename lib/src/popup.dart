@@ -8,11 +8,13 @@ class Popup {
   final Color barrierColor;
   final Curve curve;
   final Widget child;
+  final Offset offset;
 
   Popup({
     this.position = PopupPosition.bottomAlignCenter,
     this.barrierColor = Colors.transparent,
     this.curve = Curves.easeInOut,
+    this.offset = Offset.zero,
     required this.child,
   });
 
@@ -25,6 +27,7 @@ class Popup {
         position: position,
         backgroundColor: barrierColor,
         curve: curve,
+        offset: offset,
         child: child,
       ),
     );

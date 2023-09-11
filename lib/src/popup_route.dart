@@ -9,6 +9,7 @@ class PopupRoute<T> extends ModalRoute<T> {
   final Color backgroundColor;
   final Curve curve;
   final Widget child;
+  final Offset offset;
 
   PopupRoute({
     required this.anchor,
@@ -16,6 +17,7 @@ class PopupRoute<T> extends ModalRoute<T> {
     required this.backgroundColor,
     required this.curve,
     required this.child,
+    required this.offset,
   });
 
   @override
@@ -46,6 +48,7 @@ class PopupRoute<T> extends ModalRoute<T> {
       anchor: anchor,
       position: position,
       animation: CurvedAnimation(parent: animation, curve: curve),
+      offset: offset,
       child: child,
     );
   }
