@@ -1,10 +1,10 @@
 name: the_popup
 description: A package that provides the ability to show popup window at any location.
-version: 0.0.3
+version: 1.0.0
 repository: https://github.com/yalong0521/the_popup
 
 environment:
-  sdk: '>=2.19.5 <3.0.0'
+  sdk: '>=2.19.5 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

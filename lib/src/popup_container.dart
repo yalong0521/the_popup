@@ -8,6 +8,8 @@ class PopupContainer extends StatefulWidget {
   final Animation<double> animation;
   final Widget child;
   final Offset offset;
+  final VoidCallback? onShow;
+  final VoidCallback? onDismiss;
 
   const PopupContainer({
     super.key,
@@ -16,6 +18,8 @@ class PopupContainer extends StatefulWidget {
     required this.animation,
     required this.child,
     required this.offset,
+    this.onShow,
+    this.onDismiss,
   });
 
   @override
@@ -33,7 +37,13 @@ class _PopupState extends State<PopupContainer>
   @override
   void initState() {
     super.initState();
+    widget.animation.addListener(() {
+      if (widget.animation.value == 0) {
+        widget.onDismiss?.call();
+      }
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.onShow?.call();
       final anchorRenderObj = widget.anchor.currentContext?.findRenderObject();
       final popupRenderObj = _popKey.currentContext?.findRenderObject();
       if (anchorRenderObj == null || popupRenderObj == null) return;
@@ -165,21 +175,20 @@ class _PopupState extends State<PopupContainer>
     _offset = const Offset(0, -1);
   }
 
+  bool _hasPopped = false;
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        GestureDetector(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.transparent,
-          ),
-          onTap: () => Navigator.of(context).pop(),
-        ),
-        _popupWidget(),
-      ],
+    return TapRegion(
+      child: Stack(children: [_popupWidget()]),
+      onTapOutside: (event) => _dismiss(),
     );
+  }
+
+  void _dismiss() {
+    if (_hasPopped) return;
+    _hasPopped = true;
+    Navigator.of(context).pop();
   }
 
   Widget _popupWidget() {

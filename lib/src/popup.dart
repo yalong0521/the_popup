@@ -9,6 +9,8 @@ class Popup {
   final Curve curve;
   final Widget child;
   final Offset offset;
+  final VoidCallback? onShow;
+  final VoidCallback? onDismiss;
 
   Popup({
     this.position = PopupPosition.bottomAlignCenter,
@@ -16,6 +18,8 @@ class Popup {
     this.curve = Curves.easeInOut,
     this.offset = Offset.zero,
     required this.child,
+    this.onShow,
+    this.onDismiss,
   });
 
   Future<T?> showAsDropDown<T>(GlobalKey anchor) {
@@ -28,6 +32,8 @@ class Popup {
         backgroundColor: barrierColor,
         curve: curve,
         offset: offset,
+        onShow: onShow,
+        onDismiss: onDismiss,
         child: child,
       ),
     );

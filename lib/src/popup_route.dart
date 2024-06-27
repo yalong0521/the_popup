@@ -10,6 +10,8 @@ class PopupRoute<T> extends ModalRoute<T> {
   final Curve curve;
   final Widget child;
   final Offset offset;
+  final VoidCallback? onShow;
+  final VoidCallback? onDismiss;
 
   PopupRoute({
     required this.anchor,
@@ -18,6 +20,8 @@ class PopupRoute<T> extends ModalRoute<T> {
     required this.curve,
     required this.child,
     required this.offset,
+    this.onShow,
+    this.onDismiss,
   });
 
   @override
@@ -49,6 +53,8 @@ class PopupRoute<T> extends ModalRoute<T> {
       position: position,
       animation: CurvedAnimation(parent: animation, curve: curve),
       offset: offset,
+      onShow: onShow,
+      onDismiss: onDismiss,
       child: child,
     );
   }

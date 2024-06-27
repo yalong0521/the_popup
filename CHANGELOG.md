@@ -1,4 +1,3 @@
-## 0.0.3
+## 1.0.0
 
-* Modify readme.
-* Support pass Offset.
+* 新增显示/消失回调事件
