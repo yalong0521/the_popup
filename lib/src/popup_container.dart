@@ -192,7 +192,16 @@ class _PopupState extends State<PopupContainer>
   }
 
   Widget _popupWidget() {
-    Widget popupWidget = Container(key: _popKey, child: widget.child);
+    var size = MediaQuery.of(context).size;
+    var viewInsets = MediaQuery.of(context).viewInsets;
+    var maxWidth = size.width - _left - viewInsets.right;
+    var maxHeight = size.height - _top - viewInsets.bottom;
+    size.width;
+    Widget popupWidget = Container(
+      key: _popKey,
+      constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
+      child: widget.child,
+    );
     if (_left == _top && _top == 0 && _offset == Offset.zero) {
       popupWidget = Offstage(offstage: true, child: popupWidget);
     } else {
