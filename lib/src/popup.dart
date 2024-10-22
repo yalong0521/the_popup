@@ -7,7 +7,7 @@ class Popup {
   final PopupPosition position;
   final Color barrierColor;
   final Curve curve;
-  final Widget child;
+  final WidgetBuilder childBuilder;
   final Offset offset;
   final VoidCallback? onShow;
   final VoidCallback? onDismiss;
@@ -17,7 +17,7 @@ class Popup {
     this.barrierColor = Colors.transparent,
     this.curve = Curves.easeInOut,
     this.offset = Offset.zero,
-    required this.child,
+    required this.childBuilder,
     this.onShow,
     this.onDismiss,
   });
@@ -34,7 +34,7 @@ class Popup {
         offset: offset,
         onShow: onShow,
         onDismiss: onDismiss,
-        child: child,
+        childBuilder: childBuilder,
       ),
     );
   }

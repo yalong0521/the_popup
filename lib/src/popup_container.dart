@@ -6,7 +6,7 @@ class PopupContainer extends StatefulWidget {
   final GlobalKey anchor;
   final PopupPosition position;
   final Animation<double> animation;
-  final Widget child;
+  final WidgetBuilder childBuilder;
   final Offset offset;
   final VoidCallback? onShow;
   final VoidCallback? onDismiss;
@@ -16,7 +16,7 @@ class PopupContainer extends StatefulWidget {
     required this.anchor,
     required this.position,
     required this.animation,
-    required this.child,
+    required this.childBuilder,
     required this.offset,
     this.onShow,
     this.onDismiss,
@@ -44,56 +44,60 @@ class _PopupState extends State<PopupContainer>
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onShow?.call();
-      final anchorRenderObj = widget.anchor.currentContext?.findRenderObject();
-      final popupRenderObj = _popKey.currentContext?.findRenderObject();
-      if (anchorRenderObj == null || popupRenderObj == null) return;
-      // Calculate the position of the popup.
-      final anchorRenderBox = anchorRenderObj as RenderBox;
-      final popupRenderBox = popupRenderObj as RenderBox;
-      Offset anchorPosition = anchorRenderBox.localToGlobal(Offset.zero);
-      anchorPosition += widget.offset;
-      Size anchorSize = anchorRenderBox.size;
-      Size popupSize = popupRenderBox.size;
-      switch (widget.position) {
-        case PopupPosition.leftAlignTop:
-          _leftAlignTop(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.leftAlignCenter:
-          _leftAlignCenter(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.leftAlignBottom:
-          _leftAlignBottom(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.rightAlignTop:
-          _rightAlignTop(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.rightAlignCenter:
-          _rightAlignCenter(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.rightAlignBottom:
-          _rightAlignBottom(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.topAlignLeft:
-          _topAlignLeft(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.topAlignCenter:
-          _topAlignCenter(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.topAlignRight:
-          _topAlignRight(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.bottomAlignLeft:
-          _bottomAlignLeft(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.bottomAlignCenter:
-          _bottomAlignCenter(anchorPosition, anchorSize, popupSize);
-          break;
-        case PopupPosition.bottomAlignRight:
-          _bottomAlignRight(anchorPosition, anchorSize, popupSize);
-          break;
-      }
+      _calc();
       setState(() {});
     });
+  }
+
+  void _calc() {
+    final anchorRenderObj = widget.anchor.currentContext?.findRenderObject();
+    final popupRenderObj = _popKey.currentContext?.findRenderObject();
+    if (anchorRenderObj == null || popupRenderObj == null) return;
+    // Calculate the position of the popup.
+    final anchorRenderBox = anchorRenderObj as RenderBox;
+    final popupRenderBox = popupRenderObj as RenderBox;
+    Offset anchorPosition = anchorRenderBox.localToGlobal(Offset.zero);
+    anchorPosition += widget.offset;
+    Size anchorSize = anchorRenderBox.size;
+    Size popupSize = popupRenderBox.size;
+    switch (widget.position) {
+      case PopupPosition.leftAlignTop:
+        _leftAlignTop(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.leftAlignCenter:
+        _leftAlignCenter(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.leftAlignBottom:
+        _leftAlignBottom(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.rightAlignTop:
+        _rightAlignTop(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.rightAlignCenter:
+        _rightAlignCenter(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.rightAlignBottom:
+        _rightAlignBottom(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.topAlignLeft:
+        _topAlignLeft(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.topAlignCenter:
+        _topAlignCenter(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.topAlignRight:
+        _topAlignRight(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.bottomAlignLeft:
+        _bottomAlignLeft(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.bottomAlignCenter:
+        _bottomAlignCenter(anchorPosition, anchorSize, popupSize);
+        break;
+      case PopupPosition.bottomAlignRight:
+        _bottomAlignRight(anchorPosition, anchorSize, popupSize);
+        break;
+    }
   }
 
   void _leftAlignTop(Offset anchorPosition, Size anchorSize, Size popupSize) {
@@ -192,15 +196,15 @@ class _PopupState extends State<PopupContainer>
   }
 
   Widget _popupWidget() {
+    _calc();
     var size = MediaQuery.of(context).size;
     var viewInsets = MediaQuery.of(context).viewInsets;
-    var maxWidth = size.width - _left - viewInsets.right;
     var maxHeight = size.height - _top - viewInsets.bottom;
     size.width;
     Widget popupWidget = Container(
       key: _popKey,
-      constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
-      child: widget.child,
+      constraints: BoxConstraints(maxHeight: maxHeight),
+      child: widget.childBuilder(context),
     );
     if (_left == _top && _top == 0 && _offset == Offset.zero) {
       popupWidget = Offstage(offstage: true, child: popupWidget);

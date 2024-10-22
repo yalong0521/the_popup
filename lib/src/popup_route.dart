@@ -8,7 +8,7 @@ class PopupRoute<T> extends ModalRoute<T> {
   final PopupPosition position;
   final Color backgroundColor;
   final Curve curve;
-  final Widget child;
+  final WidgetBuilder childBuilder;
   final Offset offset;
   final VoidCallback? onShow;
   final VoidCallback? onDismiss;
@@ -18,7 +18,7 @@ class PopupRoute<T> extends ModalRoute<T> {
     required this.position,
     required this.backgroundColor,
     required this.curve,
-    required this.child,
+    required this.childBuilder,
     required this.offset,
     this.onShow,
     this.onDismiss,
@@ -55,7 +55,7 @@ class PopupRoute<T> extends ModalRoute<T> {
       offset: offset,
       onShow: onShow,
       onDismiss: onDismiss,
-      child: child,
+      childBuilder: childBuilder,
     );
   }
 }
