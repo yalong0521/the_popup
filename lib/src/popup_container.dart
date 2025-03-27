@@ -179,20 +179,9 @@ class _PopupState extends State<PopupContainer>
     _offset = const Offset(0, -1);
   }
 
-  bool _hasPopped = false;
-
   @override
   Widget build(BuildContext context) {
-    return TapRegion(
-      child: Stack(children: [_popupWidget()]),
-      onTapOutside: (event) => _dismiss(),
-    );
-  }
-
-  void _dismiss() {
-    if (_hasPopped) return;
-    _hasPopped = true;
-    Navigator.of(context).pop();
+    return Stack(children: [_popupWidget()]);
   }
 
   Widget _popupWidget() {

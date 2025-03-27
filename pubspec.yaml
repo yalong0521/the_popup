@@ -1,6 +1,6 @@
 name: the_popup
 description: A package that provides the ability to show popup window at any location.
-version: 1.0.2
+version: 1.0.3
 repository: https://github.com/yalong0521/the_popup
 
 environment:
